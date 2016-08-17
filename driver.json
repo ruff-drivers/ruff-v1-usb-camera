@@ -1,5 +1,7 @@
 {
     "models": [
         "uvc-01"
-    ]
+    ],
+    "power": null,
+    "ground": null
 }

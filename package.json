@@ -14,7 +14,9 @@
   "homepage": "https://github.com/ruff-drivers/ruff-v1-usb-camera",
   "keywords": [
     "ruff",
-    "driver"
+    "driver",
+    "USB camera",
+    "UVC"
   ],
   "main": "src/index.js",
   "device-typings": "typings/device.d.ts",

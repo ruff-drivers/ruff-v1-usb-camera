@@ -111,8 +111,12 @@ Camera.prototype._grabInit = function (callback) {
             });
         }
     ], function (error) {
+        if (error) {
+            callback && callback(error);
+            return;
+        }
         that._readPoll = new Poll(that._fifoFd);
-        callback && callback(error);
+        callback && callback();
     });
 };
 
@@ -132,6 +136,8 @@ Camera.prototype._grab = function (option, picture, callback) {
             var length = fs.readSync(that._fifoFd, buffer, 0, CHUNK_SIZE, -1);
             if (length === 0) {
                 that._readPoll.stop();
+                that._readPoll.close();
+                fs.closeSync(that._fifoFd);
                 picture.emit('end');
                 that._readCleanup(callback);
                 return;
@@ -150,11 +156,7 @@ Camera.prototype._grabCleanup = function (callback) {
 
 Camera.prototype._readCleanup = function (callback) {
     this._readFinish = true;
-    async.series([
-        this._readPoll.close.bind(this._readPoll),
-        fs.close.bind(fs, this._fifoFd),
-        this._cleanup.bind(this, callback)
-    ]);
+    this._cleanup(callback);
 };
 
 Camera.prototype._cleanup = function (callback) {

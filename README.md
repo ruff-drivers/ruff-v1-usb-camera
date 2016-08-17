@@ -44,6 +44,8 @@ picture.on('end', function () {
  // ...
 });
 ```
+## FAQ
+If your get error message `Cannot find USB camera`, please confirm your camera has been pluged, and power down the ruff board and then power on it agagin.
 
 ## API References
 
